@@ -1,54 +1,43 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function AddTaskForm(props) {
-  const [task, setTask] = useState('');
 
-  function handleChange(e) {
-    setTask(e.target.value);
+import ListOfTasks from './listoftasks';
+import Form from './form';
+
+class App extends Component {
+  state = {
+    tasks: []
   }
 
-  function handleSubmit(e) {
-    if (task !== '') {
-      props.handleSubmit(task);
-      setTask('');
-    }
-    e.preventDefault();
-  }
-  return (
-    <form onSubmit={handleSubmit}>
-      <input type="text"
-        placeholder="Add a new task"
-        onChange={handleChange}
-        value={task} />
-      <button class="myButton" type="submit">Add</button>
-    </form>
-  );
-}
+  removeTask = (index) => {
+    let { tasks } = this.state;
 
-function PeopleList(props) {
-  const arr = props.data;
-  const listItems = arr.map((val, index) =>
-    <li key={index}>{val}</li>
-  );
-  return <ul>{listItems}</ul>;
-}
-
-function ContactManager(props) {
-  const [tasks, setContacts] = useState(props.data);
-
-  function addTask(taskName) {
-    setContacts([...tasks, taskName]);
+    this.setState({
+      tasks: tasks.filter((task, indexOfTask) => {
+        console.log("task: " + task.task + " has been deleted")
+        return index !== indexOfTask
+      }),
+    })
   }
 
-  return (
-    <div>
-      <AddTaskForm handleSubmit={addTask} />
-      <PeopleList data={tasks} />
-    </div>
-  );
-}
-let tasks = [];
+  handleSubmit = (task) => {
+    this.setState({ tasks: [...this.state.tasks, task] })
+  }
 
-ReactDOM.render(<ContactManager data={tasks} />, document.getElementById('toDoList'));
+  render() {
+    let { tasks } = this.state
+
+    return (
+      <div>
+        <Form handleSubmit={this.handleSubmit} />
+        <ListOfTasks taskData={tasks} removeTask={this.removeTask} />
+      </div>
+    )
+  }
+
+
+}
+
+ReactDOM.render(<App />, document.getElementById('toDoList'));

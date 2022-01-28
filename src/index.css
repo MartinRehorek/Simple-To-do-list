@@ -71,3 +71,6 @@ input[type="text"] {
   border-bottom: 2px solid grey;
   box-sizing: border-box;
 }
+td{
+  padding-right: 10px;
+}

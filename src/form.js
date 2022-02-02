@@ -1,35 +1,24 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 
-class Form extends Component {
-    initialState = {
-        task : ""
+function Form(props) {
+    const [task, setTask] = useState("")
+
+    const handleChange = event => {
+        const { task, value } = event.target;
+        setTask(value)
     }
 
-    state = this.initialState;
-
-    handleChange = (event) => {
-        let { task, value} = event.target;
-        console.log(value)
-        this.setState({
-            task : value
-        })
+    const submitForm = () => {
+        props.handleSubmit(task)
+        setTask("")
     }
 
-    submitForm = () => {
-        this.props.handleSubmit(this.state)
-        this.setState(this.initialState)
-    }
-
-    render() {
-        const {task}  = this.state;
-
-        return (
-            <form>
-                <input placeholder="Name the task" type="text" name="task" id="task" value={task} onChange={this.handleChange} />
-                <input className="myButton" type="button" value="Submit" onClick={this.submitForm} />
-            </form>
-        );
-    }
+    return (
+        <form>
+            <input placeholder="Name the task" type="text" name="task" id="task" value={task} onChange={handleChange} />
+            <input className="myButton" type="button" value="Submit" onClick={submitForm} />
+        </form>
+    );
 }
 
-export default Form;
+export default Form

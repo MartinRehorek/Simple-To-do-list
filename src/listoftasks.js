@@ -4,11 +4,10 @@ let TaskBody = (props) => {
     let taskRows = props.taskData.map((rowElements, index) => {
         return (
             <tr key={index}>
-                <td>{rowElements.task}</td>
+                <td>{rowElements}</td>
                 <td>
-                    <button className="myButton"  onClick={() => props.removeTask(index)}>Done</button>
+                    <button className="myButton" onClick={() => props.removeTask(index)}>Done</button>
                 </td>
-
             </tr>
         )
     })
@@ -16,7 +15,7 @@ let TaskBody = (props) => {
 }
 
 let ListOfTasks = (props) => {
-    let { taskData, removeTask } = props
+    const { removeTask, taskData } = props
 
     return (
         <table>
